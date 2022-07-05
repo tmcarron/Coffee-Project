@@ -46,33 +46,39 @@ def PrintResources():
 
 
 def MakeDrink(drink_type):
+    
     enough_resources = True
     if resources["water"] - MENU[drink_type]["ingredients"]["water"] < 0:
         print("Not enought water")
         enough_resources = False
-    else:
-        resources["water"] -= MENU[drink_type]["ingredients"]["water"]
-
     if resources["coffee"] - MENU[drink_type]["ingredients"]["coffee"] < 0:
         print("Not enough coffee")
         enough_resources = False
-    else:
-        resources["coffee"] -= MENU[drink_type]["ingredients"]["coffee"]
-
     if "milk" in MENU[drink_type]:
         if resources["milk"] - MENU[drink_type]["ingredients"]["milk"] < 0:
             print("Not enough milk")
             enough_resources = False
-        else:
-            resources["milk"] -= MENU[drink_type]["ingredients"]["milk"]
-     
+    if enough_resources == True:
+        resources["coffee"] -= MENU[drink_type]["ingredients"]["coffee"]
+        resources["water"] -= MENU[drink_type]["ingredients"]["water"]
+        resources["milk"] -= MENU[drink_type]["ingredients"]["milk"]
+
+
+    return enough_resources
+
 
 
 while another_coffee == True:
     os.system('cls')
     drink_choice = input("Would you like a latte, cappuccino, or espresso? ").lower()
     if drink_choice == "latte" or drink_choice == "espresso" or drink_choice == "cappuccino":
-        MakeDrink(drink_choice)
+        if MakeDrink(drink_choice) == True:
+            if drink_choice == "latte":
+                latte_count += 1
+            elif drink_choice == "espresso":
+                espresso_count += 1
+            elif drink_choice == "cappuccino":
+                cappuccino_count += 1
         print()
         PrintResources()
         print()
